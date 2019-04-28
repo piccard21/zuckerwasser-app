@@ -1,5 +1,5 @@
 <template>
-    <Page>
+    <Page class="page">
         <ActionBar title="Welcome to NativeScript-Vue!" android:flat="true"/>
         <TabView android:tabBackgroundColor="#53ba82"
                  android:tabTextColor="#c4ffdf"
@@ -28,7 +28,7 @@
   export default {
     data() {
       return {
-        msg: 'Hello World!'
+        msg: 'Hello World 21!'
       }
     }
   }
