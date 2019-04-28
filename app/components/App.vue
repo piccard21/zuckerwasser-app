@@ -1,36 +1,73 @@
 <template>
-    <Page class="page" @loaded="pageLoaded">
-        <!-- <ActionBar  class="action-bar" title="Zuckerwasser Rechner" android:flat="true" android.icon="res://icon"  android.iconVisibility="always" /> -->
-       
-        <ActionBar>
-            <StackLayout orientation="horizontal">
-                <Image src="res://icon" width="40" height="40" verticalAlignment="center" class="mr-4"/>
-                <Label text="Zuckerwasser-Rechner" fontSize="24" verticalAlignment="center" />
-            </StackLayout>
-        </ActionBar>
+  <Page
+    class="page"
+    @loaded="pageLoaded"
+  >
+    <ActionBar>
+      <StackLayout orientation="horizontal">
+        <Image
+          src="res://icon"
+          width="40"
+          height="40"
+          verticalAlignment="center"
+          class="mr-4"
+        />
+        <Label
+          text="Zuckerwasser-Rechner"
+          fontSize="24"
+          verticalAlignment="center"
+        />
+      </StackLayout>
+    </ActionBar>
 
-        <TabView :selectedIndex="0"
-                 :android:tabBackgroundColor="primaryColor"
-                 :android:tabTextColor="secondaryColor"
-                 :android:selectedTabTextColor="secondaryColor"
-                 :androidSelectedTabHighlightColor="secondaryColor">
-            <TabViewItem title="Tab 1">
-                <GridLayout columns="*" rows="*">
-                    <Label class="message" :text="msg" col="0" row="0"/>
-                </GridLayout>
-            </TabViewItem>
-            <TabViewItem title="Tab 2">
-                <GridLayout columns="*" rows="*">
-                    <Label class="message" text="Tab 2 Content" col="0" row="0"/>
-                </GridLayout>
-            </TabViewItem>
-            <TabViewItem title="Tab 3">
-                <GridLayout columns="*" rows="*">
-                    <Label class="message" text="Tab 3 Content" col="0" row="0"/>
-                </GridLayout>
-            </TabViewItem>
-        </TabView>
-    </Page>
+    <TabView
+      :selectedIndex="0"
+      :android:tabBackgroundColor="primaryColor"
+      :android:tabTextColor="secondaryColor"
+      :android:selectedTabTextColor="secondaryColor"
+      :androidSelectedTabHighlightColor="secondaryColor"
+    >
+      <TabViewItem title="Tab 1">
+        <GridLayout
+          columns="*"
+          rows="*"
+        >
+          <Label
+            class="message"
+            :text="msg"
+            col="0"
+            row="0"
+          />
+        </GridLayout>
+      </TabViewItem>
+      <TabViewItem title="Tab 2">
+        <GridLayout
+          columns="*"
+          rows="*"
+        >
+          <Label
+            class="message"
+            text="Tab 2 Content"
+            col="0"
+            row="0"
+          />
+        </GridLayout>
+      </TabViewItem>
+      <TabViewItem title="Tab 3">
+        <GridLayout
+          columns="*"
+          rows="*"
+        >
+          <Label
+            class="message"
+            text="Tab 3 Content"
+            col="0"
+            row="0"
+          />
+        </GridLayout>
+      </TabViewItem>
+    </TabView>
+  </Page>
 </template>
 
 <script >
