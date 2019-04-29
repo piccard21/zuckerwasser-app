@@ -32,6 +32,9 @@
       <TabViewItem title="Tabelle">
         <TableOverview />
       </TabViewItem>
+      <TabViewItem title="?">
+        <Label text="Hilfe"></Label>
+      </TabViewItem>
     </TabView>
   </Page>
 </template>

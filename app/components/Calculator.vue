@@ -1,6 +1,6 @@
 <template>
   <ScrollView class="m-20">
-    <StackLayout class="home-panel form input-field">
+    <StackLayout v-if="!hasResult" class="home-panel">
       <!-- ratio -->
       <Button
         row="0"
@@ -10,63 +10,53 @@
         style="background: #ffc107;"
         @tap="setRatio"
       />
+      <!-- ratio -->
+      <Button
+        row="0"
+        col="1"
+        :text="ingredientLabel"
+        class="btn btn-primary"
+        style="background: #ffc107;"
+        @tap="setIngredient"
+      />
 
-      <!-- <StackLayout class="hr-light m-20" /> -->
+      <Label :text="amountLabel" class="heading m-t-20" />
+      <ListPicker
+        v-model="amountIndex"
+        :items="amountItems"
+        :selectedIndex="0"
+      />
+      <Button text="Berechne" class="btn btn-primary" @tap="calculate" />
+    </StackLayout>
 
-      <!-- sugar -->
-      <Label text="Zucker" class="heading m-t-20" />
-      <TextField
-        v-model="sugarKilo"
-        hint="Kilo"
-        class="input input-border"
-        keyboardType="number"
-      />
-      <!-- water -->
-      <Label text="Wasser" class="heading m-t-20" />
-      <TextField
-        v-model="water"
-        hint="Liter"
-        class="input input-border"
-        keyboardType="number"
-      />
-      <!-- liquid -->
-      <Label text="Gesamtmenge der Lösung" class="heading m-t-20" />
-      <TextField
-        v-model="liquid"
-        hint="Liter"
-        class="input input-border"
-        keyboardType="number"
-      />
-      <!-- food theoretical-->
-      <Label text="Theoretisch eingedicktes Futter" class="heading m-t-20" />
-      <TextField
-        v-model="foodTheoretical"
-        hint="Liter"
-        class="input input-border"
-        keyboardType="number"
-      />
-      <!-- food in fact-->
-      <Label text="Tatsächlich eingelagertes Futter" class="heading m-t-20" />
-      <TextField
-        v-model="foodInFact"
-        hint="Kilo"
-        class="input input-border"
-        keyboardType="number"
-      />
-      <Button text="Alles zurücksetzen" class="btn btn-primary" @tap="reset" />
+    <StackLayout v-else>
+      <result @new-calc="hasResult = false"></result>
     </StackLayout>
   </ScrollView>
 </template>
 
 <script>
+import result from "./Result";
 export default {
+  components: {
+    result
+  },
   data() {
-    return {};
+    return {
+      hasResult: false,
+      ingredient: "Zucker",
+      ingredientItems: [
+        { setSugarKilo: "Zucker" },
+        { setWater: "Wasser" },
+        { setOverallLiquid: "Gesamtmenge der Lösung" },
+        { setOverallFoodTheoretical: "Theoretische Futtermenge" },
+        { setOverallFoodInFact: "Tatsächliche Futtermenge" }
+      ],
+      amountIndex: 0,
+      amountItems: Array.from({ length: 100 }, (v, k) => k + 1)
+    };
   },
   computed: {
-    ratioLabel() {
-      return "Verhältnis " + this.ratio;
-    },
     ratio: {
       get() {
         return this.$store.state.ratio;
@@ -75,63 +65,52 @@ export default {
         this.$store.commit("setRatio", { value });
       }
     },
-    sugarKilo: {
-      get() {
-        return this.$store.state.sugarKilo;
-      },
-      set(value) {
-        this.$store.dispatch("setSugarKilo", { value });
-      }
+    ratioLabel() {
+      return "Verhältnis: " + this.ratio;
     },
-    water: {
-      get() {
-        return this.$store.state.water;
-      },
-      set(value) {
-        this.$store.dispatch("setWater", { value });
-      }
+    ingredientLabel() {
+      return this.ingredient;
     },
-    liquid: {
-      get() {
-        return this.$store.state.overallLiquid;
-      },
-      set(value) {
-        this.$store.dispatch("setOverallLiquid", { value });
-      }
-    },
-    foodTheoretical: {
-      get() {
-        return this.$store.state.overallFoodTheoretical;
-      },
-      set(value) {
-        this.$store.dispatch("setOverallFoodTheoretical", {
-          value
-        });
-      }
-    },
-    foodInFact: {
-      get() {
-        return this.$store.state.overallFoodInFact;
-      },
-      set(value) {
-        this.$store.dispatch("setOverallFoodInFact", {
-          value
-        });
-      }
+    amountLabel() {
+      const unit = ["Gesamtmenge der Lösung", "Wasser"].includes(
+        this.ingredient
+      )
+        ? "Liter"
+        : "Kilo";
+      return "Menge in " + unit;
     }
   },
   methods: {
+    calculate() {
+      const actionType = Object.keys(
+        this.ingredientItems.find(
+          item => Object.values(item)[0] === this.ingredient
+        )
+      )[0];
+
+      this.$store.dispatch(actionType, {
+        value: this.amountItems[this.amountIndex]
+      });
+
+      this.hasResult = true;
+    },
     setRatio() {
       action("Wählen Sie ein Verhältnis?", "Abbruch", ["1:1", "3:2"]).then(
         result => {
-          console.log(result); // Logs the selected option for debugging.
+          if (result === "Abbruch" || result === this.ratio) return;
           this.ratio = result;
-          this.reset();
         }
       );
     },
-    reset() {
-      this.sugarKilo = this.water = this.liquid = this.foodTheoretical = this.foodInFact = undefined;
+    setIngredient() {
+      action(
+        "Was ist der Ausgangspunkt der Berechnung?",
+        "Abbruch",
+        this.ingredientItems.map(item => Object.values(item)[0])
+      ).then(result => {
+        if (result === "Abbruch" || result === this.ingredient) return;
+        this.ingredient = result;
+      });
     }
   }
 };
