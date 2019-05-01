@@ -1,5 +1,5 @@
 <template>
-  <ScrollView class="m-20">
+  <ScrollView class="form m-20">
     <StackLayout v-if="!hasResult" class="home-panel">
       <!-- ratio -->
       <Button
@@ -10,7 +10,8 @@
         style="background: #ffc107;"
         @tap="setRatio"
       />
-      <!-- ratio -->
+
+      <!-- ingredient -->
       <Button
         row="0"
         col="1"
@@ -20,15 +21,18 @@
         @tap="setIngredient"
       />
 
+      <!-- amount -->
       <Label :text="amountLabel" class="heading m-t-20" />
-      <ListPicker
-        v-model="amountIndex"
-        :items="amountItems"
-        :selectedIndex="0"
+      <TextField
+        v-model="amount"
+        :hint="unit"
+        class="input input-border"
+        keyboardType="number"
       />
       <Button text="Berechne" class="btn btn-primary" @tap="calculate" />
     </StackLayout>
 
+    <!-- result -->
     <StackLayout v-else>
       <result @new-calc="hasResult = false"></result>
     </StackLayout>
@@ -52,8 +56,7 @@ export default {
         { setOverallFoodTheoretical: "Theoretische Futtermenge" },
         { setOverallFoodInFact: "Tatsächliche Futtermenge" }
       ],
-      amountIndex: 0,
-      amountItems: Array.from({ length: 100 }, (v, k) => k + 1)
+      amount: undefined
     };
   },
   computed: {
@@ -71,13 +74,13 @@ export default {
     ingredientLabel() {
       return this.ingredient;
     },
-    amountLabel() {
-      const unit = ["Gesamtmenge der Lösung", "Wasser"].includes(
-        this.ingredient
-      )
+    unit() {
+      return ["Gesamtmenge der Lösung", "Wasser"].includes(this.ingredient)
         ? "Liter"
         : "Kilo";
-      return "Menge in " + unit;
+    },
+    amountLabel() {
+      return "Menge in " + this.unit;
     }
   },
   methods: {
@@ -89,7 +92,7 @@ export default {
       )[0];
 
       this.$store.dispatch(actionType, {
-        value: this.amountItems[this.amountIndex]
+        value: parseFloat(this.amount)
       });
 
       this.hasResult = true;
