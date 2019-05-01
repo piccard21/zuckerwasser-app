@@ -1,45 +1,41 @@
 <template>
   <StackLayout>
+    <!-- ratio -->
+    <Label :text="ratioLabel" class="h2 text-center" />
+
     <!-- sugar -->
     <Label text="Zucker" class="heading m-t-20" />
     <TextField
       v-model="sugarKilo"
-      hint="Kilo"
+      :isEnabled="false"
       class="input input-border"
-      keyboardType="number"
     />
+
     <!-- water -->
     <Label text="Wasser" class="heading m-t-20" />
-    <TextField
-      v-model="water"
-      hint="Liter"
-      class="input input-border"
-      keyboardType="number"
-    />
+    <TextField v-model="water" :isEnabled="false" class="input input-border" />
+
     <!-- liquid -->
     <Label text="Gesamtmenge der Lösung" class="heading m-t-20" />
-    <TextField
-      v-model="liquid"
-      hint="Liter"
-      class="input input-border"
-      keyboardType="number"
-    />
+    <TextField v-model="liquid" :isEnabled="false" class="input input-border" />
+
     <!-- food theoretical-->
     <Label text="Theoretisch eingedicktes Futter" class="heading m-t-20" />
     <TextField
       v-model="foodTheoretical"
-      hint="Liter"
+      :isEnabled="false"
       class="input input-border"
-      keyboardType="number"
     />
+
     <!-- food in fact-->
     <Label text="Tatsächlich eingelagertes Futter" class="heading m-t-20" />
     <TextField
       v-model="foodInFact"
-      hint="Kilo"
+      :isEnabled="false"
       class="input input-border"
-      keyboardType="number"
     />
+
+    <!-- new calculation -->
     <Button
       text="Neue Berechnung"
       class="btn btn-primary"
@@ -57,57 +53,23 @@ export default {
     ratioLabel() {
       return "Verhältnis " + this.ratio;
     },
-    ratio: {
-      get() {
-        return this.$store.state.ratio;
-      },
-      set(value) {
-        this.$store.commit("setRatio", { value });
-      }
+    ratio() {
+      return this.$store.state.ratio;
     },
-    sugarKilo: {
-      get() {
-        return this.$store.state.sugarKilo;
-      },
-      set(value) {
-        this.$store.dispatch("setSugarKilo", { value });
-      }
+    sugarKilo() {
+      return this.$store.state.sugarKilo;
     },
-    water: {
-      get() {
-        return this.$store.state.water;
-      },
-      set(value) {
-        this.$store.dispatch("setWater", { value });
-      }
+    water() {
+      return this.$store.state.water;
     },
-    liquid: {
-      get() {
-        return this.$store.state.overallLiquid;
-      },
-      set(value) {
-        this.$store.dispatch("setOverallLiquid", { value });
-      }
+    liquid() {
+      return this.$store.state.overallLiquid;
     },
-    foodTheoretical: {
-      get() {
-        return this.$store.state.overallFoodTheoretical;
-      },
-      set(value) {
-        this.$store.dispatch("setOverallFoodTheoretical", {
-          value
-        });
-      }
+    foodTheoretical() {
+      return this.$store.state.overallFoodTheoretical;
     },
-    foodInFact: {
-      get() {
-        return this.$store.state.overallFoodInFact;
-      },
-      set(value) {
-        this.$store.dispatch("setOverallFoodInFact", {
-          value
-        });
-      }
+    foodInFact() {
+      return this.$store.state.overallFoodInFact;
     }
   },
   methods: {}

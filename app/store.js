@@ -7,8 +7,8 @@ Vue.use(Vuex);
 
 // H20 -> gesamt
 const RATIO_FACTOR = {
-  "1-1": 1.6,
-  "3-2": 1.9 // ~ 1.3 / 0.7
+  "1:1": 1.6,
+  "3:2": 1.9 // ~ 1.3 / 0.7
 };
 
 const FOOD_FACTOR = 1.2;
@@ -17,9 +17,9 @@ const FOOD_LOST_PERCENT = 20;
 
 const getDefaultState = () => {
   return {
-    ratio: "3-2",
-    currentFactorOverall: RATIO_FACTOR["3-2"],
-    currentFactorPerLiter: RATIO_FACTOR["3-2"] - 1,
+    ratio: "3:2",
+    currentFactorOverall: RATIO_FACTOR["3:2"],
+    currentFactorPerLiter: RATIO_FACTOR["3:2"] - 1,
     sugarKilo: undefined,
     sugarLiter: undefined,
     water: undefined,
