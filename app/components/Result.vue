@@ -114,17 +114,6 @@ export default {
     foodInFact() {
       return this.$store.state.overallFoodInFact;
     }
-  },
-  methods: {
-    roundFloat(val) {
-      if (!val) return;
-
-      if (val.toString().match(/^\d+\.*(\d{1,2})?$/i)) {
-        return val;
-      }
-
-      return Math.round(val * 100) / 100;
-    }
   }
 };
 </script>

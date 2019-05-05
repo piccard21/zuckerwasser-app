@@ -18,7 +18,7 @@
     </ActionBar>
 
     <TabView
-      :selectedIndex="0"
+      :selectedIndex="1"
       :android:tabBackgroundColor="primaryColor"
       :android:tabTextColor="secondaryColor"
       :android:selectedTabTextColor="secondaryColor"
