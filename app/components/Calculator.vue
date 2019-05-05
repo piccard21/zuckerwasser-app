@@ -1,6 +1,6 @@
 <template>
   <ScrollView class="form m-20">
-    <StackLayout v-if="!hasResult" class="home-panel">
+    <StackLayout v-if="!hasResult">
       <!-- ratio -->
       <Button
         row="0"
