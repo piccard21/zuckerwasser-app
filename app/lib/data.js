@@ -1,11 +1,12 @@
 export default {
   fields: [
-    "Zucker (kg)",
-    "Wasser (Liter)",
-    "Lösung (Liter)",
-    "Theoretisch eingedickt (kg)",
-    "Tatsächlich eingelagert (kg)"
+    "Zucker",
+    "Wasser",
+    "Lösung",
+    "Theoretisch eingedickt",
+    "Tatsächlich eingelagert"
   ],
+  units: ["Kilo", "Liter", "Liter", "Kilo", "Kilo"],
   data: {
     "1:1": [
       [1, 1, 1.6, 1.2, 1],
