@@ -135,5 +135,6 @@ export default {
 .b-border {
   border-color: #6c757d;
   border-width: 0 0 1 0;
+  font-size: 11;
 }
 </style>
