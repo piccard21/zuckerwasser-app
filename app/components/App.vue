@@ -32,7 +32,7 @@
       <TabViewItem title="Tabelle">
         <TableOverview />
       </TabViewItem>
-      <TabViewItem title="?">
+      <TabViewItem class="fa" :title="'fa-question-circle' | fonticon">
         <Label text="Hilfe"></Label>
       </TabViewItem>
     </TabView>
