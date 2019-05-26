@@ -17,11 +17,21 @@
         v-for="(f, i) in fields"
         :key="i"
         textWrap="true"
-        class="font-weight-bold  text-center text-primary"
-        :text="f"
         :col="i"
         row="1"
-      />
+        class="text-center"
+      >
+        <FormattedString>
+          <Span :text="f" fontWeight="bold" />
+          <Span
+            v-if="f.includes('\n')"
+            :text="foodLost"
+            color="grey"
+            fontSize="11"
+            fontStyle="italic"
+          />
+        </FormattedString>
+      </Label>
 
       <!-- units -->
       <Label
@@ -61,32 +71,6 @@
           />
         </GridLayout>
       </GridLayout>
-      <!-- data -->
-      <!-- <ListView
-        for="(rowData, rIndex) in data"
-        class="list-group"
-        row="3"
-        col="0"
-        colSpan="5"
-        height="400"
-      >
-        <v-template>
-          <GridLayout
-            class="list-group-item text-center"
-            rows="*"
-            columns="*,*,*,*,*"
-          >
-            <Label
-              v-for="(r, i) in rowData"
-              :key="i"
-              textWrap="true"
-              :row="rIndex"
-              :col="i"
-              :text="r"
-            />
-          </GridLayout>
-        </v-template>
-      </ListView> -->
     </GridLayout>
   </ScrollView>
 </template>
@@ -96,6 +80,15 @@ import tableData from "../lib/data";
 
 export default {
   computed: {
+    data() {
+      return tableData.data[this.$store.state.ratio];
+    },
+    fields() {
+      return tableData.fields;
+    },
+    foodLost() {
+      return this.$store.getters.foodLost;
+    },
     ratioLabel() {
       return "Verhältnis " + this.ratio;
     },
@@ -106,12 +99,6 @@ export default {
       set(value) {
         this.$store.commit("setRatio", { value });
       }
-    },
-    fields() {
-      return tableData.fields;
-    },
-    data() {
-      return tableData.data[this.$store.state.ratio];
     },
     units() {
       console.info(tableData.units);
