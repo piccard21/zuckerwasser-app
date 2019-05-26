@@ -18,9 +18,19 @@
               textWrap="true"
               row="0"
               col="0"
-              :text="item.label"
-              class="text-left list-group-item-heading font-weight-bold"
-            />
+              class="text-left list-group-item-heading"
+            >
+              <FormattedString>
+                <Span :text="item.label" fontWeight="bold" />
+                <Span
+                  v-if="item.label.includes('\n')"
+                  :text="foodLost"
+                  color="grey"
+                  fontSize="11"
+                  fontStyle="italic"
+                />
+              </FormattedString>
+            </Label>
             <Label
               textWrap="true"
               row="0"
@@ -87,7 +97,7 @@ export default {
         },
         {
           text: () => this.foodInFact,
-          label: "Tatsächlich vorhandenes Futter"
+          label: "Tatsächlich vorhandenes Futter\n"
         }
       ]
     };
@@ -113,6 +123,9 @@ export default {
     },
     foodInFact() {
       return this.$store.state.overallFoodInFact;
+    },
+    foodLost() {
+      return this.$store.getters.foodLost;
     }
   }
 };
