@@ -41,33 +41,18 @@
 
 <script>
 import result from "./Result";
+import shared from "../mixin/index";
 export default {
   components: {
     result
   },
+  mixins: [shared],
   data() {
     return {
-      hasResult: false,
-      ingredient: "Zucker",
-      ingredientItems: [
-        { setSugarKilo: "Zucker" },
-        { setWater: "Wasser" },
-        { setOverallLiquid: "Gesamtmenge der Lösung" },
-        { setOverallFoodTheoretical: "Theoretische Futtermenge" },
-        { setOverallFoodInFact: "Tatsächliche Futtermenge" }
-      ],
-      amount: undefined
+      hasResult: false
     };
   },
   computed: {
-    ratio: {
-      get() {
-        return this.$store.state.ratio;
-      },
-      set(value) {
-        this.$store.commit("setRatio", { value });
-      }
-    },
     ratioLabel() {
       return "Verhältnis: " + this.ratio;
     },
@@ -96,14 +81,6 @@ export default {
       });
 
       this.hasResult = true;
-    },
-    setRatio() {
-      action("Wählen Sie ein Verhältnis?", "Abbruch", ["1:1", "3:2"]).then(
-        result => {
-          if (result === "Abbruch" || result === this.ratio) return;
-          this.ratio = result;
-        }
-      );
     },
     setIngredient() {
       action(

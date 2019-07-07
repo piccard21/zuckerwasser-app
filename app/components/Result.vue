@@ -1,16 +1,20 @@
 <template>
-  <ScrollView class="form m-20">
+  <ScrollView class="form m-0">
     <StackLayout>
       <!-- ratio -->
-      <Label
+      <Button
+        row="0"
+        col="1"
         :text="ratioLabel"
-        class="h2 text-center calc-header p-10 m-b-30"
+        class="btn btn-primary"
+        style="background: #ffc107;"
+        @tap="setRatio"
       />
       <ListView
-        for="item in items"
+        :key="ratio - i"
+        for="(item, i) in items"
         class="list-group"
         height="400"
-        @itemTap="onItemTap"
       >
         <v-template>
           <GridLayout class="list-group-item" rows="*" columns="125, *, 100">
@@ -64,6 +68,8 @@
 </template>
 
 <script>
+import shared from "../mixin/index";
+
 export default {
   filters: {
     roundFloat(val) {
@@ -76,6 +82,7 @@ export default {
       return Math.round(val * 100) / 100;
     }
   },
+  mixins: [shared],
   data() {
     return {
       items: [
@@ -103,21 +110,6 @@ export default {
     };
   },
   computed: {
-    ratioLabel() {
-      return "Verhältnis " + this.ratio;
-    },
-    ratio() {
-      return this.$store.state.ratio;
-    },
-    sugarKilo() {
-      return this.$store.state.sugarKilo;
-    },
-    water() {
-      return this.$store.state.water;
-    },
-    liquid() {
-      return this.$store.state.overallLiquid;
-    },
     foodTheoretical() {
       return this.$store.state.overallFoodTheoretical;
     },
@@ -126,6 +118,35 @@ export default {
     },
     foodLost() {
       return this.$store.getters.foodLost;
+    },
+    ratioLabel() {
+      return "Verhältnis " + this.ratio;
+    },
+    sugarKilo() {
+      return this.$store.state.sugarKilo;
+    },
+    liquid() {
+      return this.$store.state.overallLiquid;
+    },
+    water() {
+      return this.$store.state.water;
+    }
+  },
+  watch: {
+    ratio() {
+      this.calculate();
+    }
+  },
+  methods: {
+    calculate() {
+      const actionType = Object.keys(
+        this.ingredientItems.find(
+          item => Object.values(item)[0] === this.ingredient
+        )
+      )[0];
+      this.$store.dispatch(actionType, {
+        value: parseFloat(this.amount)
+      });
     }
   }
 };

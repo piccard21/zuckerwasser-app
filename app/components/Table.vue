@@ -36,7 +36,7 @@
       <!-- units -->
       <Label
         v-for="(u, i) in units"
-        :key="i"
+        :key="ratio - i"
         textWrap="true"
         class="text-center text-primary p-10 b-border"
         :text="u"
@@ -44,6 +44,7 @@
         row="2"
       />
 
+      <!-- data -->
       <GridLayout
         class="text-center"
         rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
@@ -77,11 +78,13 @@
 
 <script>
 import tableData from "../lib/data";
+import shared from "../mixin/index";
 
 export default {
+  mixins: [shared],
   computed: {
     data() {
-      return tableData.data[this.$store.state.ratio];
+      return tableData.data[this.ratio];
     },
     fields() {
       return tableData.fields;
@@ -92,27 +95,8 @@ export default {
     ratioLabel() {
       return "Verhältnis " + this.ratio;
     },
-    ratio: {
-      get() {
-        return this.$store.state.ratio;
-      },
-      set(value) {
-        this.$store.commit("setRatio", { value });
-      }
-    },
     units() {
-      console.info(tableData.units);
       return tableData.units;
-    }
-  },
-  methods: {
-    setRatio() {
-      action("Wählen Sie ein Verhältnis?", "Abbruch", ["1:1", "3:2"]).then(
-        result => {
-          if (result === "Abbruch" || result === this.ratio) return;
-          this.ratio = result;
-        }
-      );
     }
   }
 };

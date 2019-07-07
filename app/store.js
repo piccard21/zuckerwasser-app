@@ -8,7 +8,7 @@ Vue.use(Vuex);
 // H20 -> gesamt
 const RATIO_FACTOR = {
   "1:1": 1.6,
-  "3:2": 1.9 // ~ 1.3 / 0.7
+  "3:2": 1.9
 };
 
 const FOOD_FACTOR = 1.2;
@@ -17,6 +17,8 @@ const FOOD_LOST_PERCENT = 15;
 
 const getDefaultState = () => {
   return {
+    amount: undefined,
+    ingredient: "Zucker",
     ratio: "3:2",
     currentFactorOverall: RATIO_FACTOR["3:2"],
     currentFactorPerLiter: RATIO_FACTOR["3:2"] - 1,
@@ -38,6 +40,8 @@ const actionTypes = {
 };
 
 const mutationTypes = {
+  SET_AMOUNT: "setAmount",
+  SET_INGREDIENT: "setIngredient",
   SET_RATIO: "setRatio"
 };
 
@@ -50,9 +54,17 @@ export default new Vuex.Store({
   },
   mutations: {
     // public
+    [mutationTypes.SET_AMOUNT](state, { value }) {
+      state.amount = value;
+    },
+    [mutationTypes.SET_INGREDIENT](state, { value }) {
+      state.ingredient = value;
+    },
     [mutationTypes.SET_RATIO](state, { value }) {
+      const amount = state.amount;
       state = Object.assign(state, getDefaultState());
       state.ratio = value;
+      state.amount = amount;
       state.currentFactorOverall = RATIO_FACTOR[value];
       state.currentFactorPerLiter = RATIO_FACTOR[value] - 1;
     },
